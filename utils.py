@@ -61,7 +61,9 @@ def tnet(inputs, num_features):
 def create_model(inputs, outputs, train_dataset, test_dataset):
     model = keras.Model(inputs=inputs, outputs=outputs, name="pointnet")
     model.compile(
-        loss="sparse_categorical_crossentropy",
+        loss=keras.losses.MeanAbsolutePercentageError(
+    reduction="sum_over_batch_size", name="mean_squared_logarithmic_error"
+),
         optimizer=keras.optimizers.Adam(learning_rate=0.001),
         metrics=["sparse_categorical_accuracy"],
     )
